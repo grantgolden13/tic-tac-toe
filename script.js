@@ -35,7 +35,7 @@ const TicTacToeModule = (() => {
         return { clearGameboard };
     })();
 
-    const NewGame = (() => {
+    const Game = (() => {
         const whoseTurn = () => {
             if (player.turnsTaken > computer.turnsTaken) {
                 computer.turnsTaken++
@@ -59,6 +59,6 @@ const TicTacToeModule = (() => {
     const player = _playerFactory("player", "X", 0);
     const computer = _playerFactory("computer", "O", 0);
 
-    return { Gameboard, NewGame, computer, player }
+    return { Gameboard, Game, computer, player }
 
 })();
