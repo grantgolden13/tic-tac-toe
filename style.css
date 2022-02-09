@@ -11,6 +11,12 @@ table {
     margin: 5% auto;
 }
 
+body {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
 .vert {
     border-left: 2px solid black;
     border-right: 2px solid black;
@@ -19,4 +25,8 @@ table {
 .hori {
     border-top: 2px solid black;
     border-bottom: 2px solid black;
+}
+
+#btn {
+    width: 100px;
 }

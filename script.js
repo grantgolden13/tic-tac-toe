@@ -1,41 +1,75 @@
-// what do i want to be able to do with the gameboard
+// so far everything works except for identifying and delcaring a draw.
 
-// private properties/methods:
-
-    // clear the gameboard
-    // identify when the game is over
-    // declare a winner
-
-    // these probably all go in the same game flow module
-    // can you put a module inside a module???
-
-const TicTacToeModule = (() => {
+const TicTacToe = (() => {
 
     const Gameboard = (() => {
-        const _gameboardArray = [...document.getElementsByClassName('cell')];
+        const gameboardArray = [...document.getElementsByClassName('cell')];
+
+        const newGameBtn = document.getElementById('btn');
+
+        newGameBtn.addEventListener('click', () => {
+            Game.clearGameboard();
+        });
+
+        const [topLeft, topMid, topRight, ...rest] = gameboardArray;
+        const [midLeft, midMid, midRight, ...otherRest] = rest;
+        const [botLeft, botMid, botRight] = otherRest;
+
+        const gameOverChecker = () => {
+
+            // 9 possible game over scenarios
+            if ((topLeft.innerText == "X" || topLeft.innerText == "O") && (topLeft.innerText == topMid.innerText) &&
+                    (topLeft.innerText == topRight.innerText)) {
+                Game.gameOver();;
+            } else if ((midLeft.innerText == "X" || midLeft.innerText == "O") && (midLeft.innerText == midMid.innerText) &&
+                    (midLeft.innerText == midRight.innerText)) {
+                Game.gameOver();;
+            } else if ((botLeft.innerText == "X" || botLeft.innerText == "O") && (botLeft.innerText == botMid.innerText) &&
+                    (botLeft.innerText == botRight.innerText)) {
+                Game.gameOver();;
+            } else if ((topLeft.innerText == "X" || topLeft.innerText == "O") && (topLeft.innerText == midLeft.innerText) &&
+                    (topLeft.innerText == botLeft.innerText)) {
+                Game.gameOver();;
+            } else if ((topMid.innerText == "X" || topMid.innerText == "O") && (topMid.innerText == midMid.innerText) &&
+                    (topMid.innerText == botMid.innerText)) {
+                Game.gameOver();;
+            } else if ((topRight.innerText == "X" || topRight.innerText == "O") && (topRight.innerText == midRight.innerText) &&
+                    (topRight.innerText == botRight.innerText)) {
+                Game.gameOver();;
+            } else if ((topLeft.innerText == "X" || topLeft.innerText == "O") && (topLeft.innerText == midMid.innerText) &&
+                    (topLeft.innerText == botRight.innerText)) {
+                Game.gameOver();;
+            } else if ((botLeft.innerText == "X" || botLeft.innerText == "O") && (botLeft.innerText == midMid.innerText) &&
+                    (botLeft.innerText == topRight.innerText)) {
+                Game.gameOver();;
+            } else if (gameboardArray.every(Game.arePresent)) {
+                Game.gameOver();
+            }
+        }
        
         const gameboardEvents = () => {
-            _gameboardArray.forEach( cell => {
+            gameboardArray.forEach( cell => {
                 cell.addEventListener('click', () => {
-                    let turnee = NewGame.whoseTurn();
-                    cell.innerText = `${turnee.marker}`
+                    if (cell.innerText == "") {
+                        let turnee = Game.whoseTurn();
+                        cell.innerText = `${turnee.marker}`
+                        gameOverChecker();
+                    }
                 });
-            });
-        }
-
-        const clearGameboard = () => {
-            _gameboardArray.forEach( cell => {
-                cell.innerText = "";
-                location.reload();
             });
         }
 
         gameboardEvents();
 
-        return { clearGameboard };
+        return { gameboardArray, gameOverChecker };
     })();
 
     const Game = (() => {
+
+        const arePresent = (value) => {
+            value !== "";
+        }
+
         const whoseTurn = () => {
             if (player.turnsTaken > computer.turnsTaken) {
                 computer.turnsTaken++
@@ -45,14 +79,32 @@ const TicTacToeModule = (() => {
                 return player;
             }
         }
-        return { whoseTurn };
+
+        const clearGameboard = () => {
+            Gameboard.gameboardArray.forEach( cell => {
+                cell.innerText = "";
+                location.reload();
+            });
+        }
+
+        const gameOver = () => {
+            const winner = player.turnsTaken > computer.turnsTaken ? player.name : computer.name;
+            if (winner == "player") {
+                alert("Congrats! You won. Play again?");
+                clearGameboard();
+            } else if (winner == "computer") {
+                alert("You lost to the computer. Try again?");
+                clearGameboard();
+            }
+        }
+
+        return { arePresent, whoseTurn, clearGameboard, gameOver };
     })();
 
     const _playerFactory = (name, marker, turnsTaken) => {
         const addMark = () => {
            console.log(this.marker);
-       }
-
+        }
        return { name, marker, turnsTaken, addMark };
     }
 
@@ -60,5 +112,4 @@ const TicTacToeModule = (() => {
     const computer = _playerFactory("computer", "O", 0);
 
     return { Gameboard, Game, computer, player }
-
 })();
