@@ -97,7 +97,7 @@ const TicTacToe = (() => {
 
         const gameOver = () => {
             const winner = player1.turnsTaken > player2.turnsTaken ? player1.name : player2.name;
-            if (winner == "player") {
+            if (winner == "player1") {
                 alert("Congrats to player1! You won. Play again?");
                 clearGameboard();
             } else if (winner == "player2") {
