@@ -1,5 +1,3 @@
-// so far everything works except for identifying and delcaring a draw.
-
 const TicTacToe = (() => {
 
     const Gameboard = (() => {
