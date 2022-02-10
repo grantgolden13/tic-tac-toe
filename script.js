@@ -16,9 +16,12 @@ const TicTacToe = (() => {
         const [botLeft, botMid, botRight] = otherRest;
 
         const gameOverChecker = () => {
-
             // 9 possible game over scenarios
-            if ((topLeft.innerText == "X" || topLeft.innerText == "O") && (topLeft.innerText == topMid.innerText) &&
+            if ((player.turnsTaken > computer.turnsTaken) && gameboardArray.every((elem) => {
+                return !(elem.innerText == "")
+            })) {
+                Game.itsATie();
+            } else if ((topLeft.innerText == "X" || topLeft.innerText == "O") && (topLeft.innerText == topMid.innerText) &&
                     (topLeft.innerText == topRight.innerText)) {
                 Game.gameOver();;
             } else if ((midLeft.innerText == "X" || midLeft.innerText == "O") && (midLeft.innerText == midMid.innerText) &&
@@ -87,6 +90,11 @@ const TicTacToe = (() => {
             });
         }
 
+        const itsATie = () => {
+            alert("It's a tie. Play again?");
+            clearGameboard();
+        }
+
         const gameOver = () => {
             const winner = player.turnsTaken > computer.turnsTaken ? player.name : computer.name;
             if (winner == "player") {
@@ -98,7 +106,7 @@ const TicTacToe = (() => {
             }
         }
 
-        return { arePresent, whoseTurn, clearGameboard, gameOver };
+        return { arePresent, whoseTurn, clearGameboard, itsATie, gameOver };
     })();
 
     const _playerFactory = (name, marker, turnsTaken) => {
