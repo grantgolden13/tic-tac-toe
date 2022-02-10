@@ -17,7 +17,7 @@ const TicTacToe = (() => {
 
         const gameOverChecker = () => {
             // 9 possible game over scenarios
-            if ((player.turnsTaken > computer.turnsTaken) && gameboardArray.every((elem) => {
+            if ((player1.turnsTaken > player2.turnsTaken) && gameboardArray.every((elem) => {
                 return !(elem.innerText == "")
             })) {
                 Game.itsATie();
@@ -74,12 +74,12 @@ const TicTacToe = (() => {
         }
 
         const whoseTurn = () => {
-            if (player.turnsTaken > computer.turnsTaken) {
-                computer.turnsTaken++
-                return computer;
+            if (player1.turnsTaken > player2.turnsTaken) {
+                player2.turnsTaken++
+                return player2;
             } else {
-                player.turnsTaken++
-                return player;
+                player1.turnsTaken++
+                return player1;
             }
         }
 
@@ -96,12 +96,12 @@ const TicTacToe = (() => {
         }
 
         const gameOver = () => {
-            const winner = player.turnsTaken > computer.turnsTaken ? player.name : computer.name;
+            const winner = player1.turnsTaken > player2.turnsTaken ? player1.name : player2.name;
             if (winner == "player") {
-                alert("Congrats! You won. Play again?");
+                alert("Congrats to player1! You won. Play again?");
                 clearGameboard();
-            } else if (winner == "computer") {
-                alert("You lost to the computer. Try again?");
+            } else if (winner == "player2") {
+                alert("Congrats to player2! You won. Play again?");
                 clearGameboard();
             }
         }
@@ -116,8 +116,8 @@ const TicTacToe = (() => {
        return { name, marker, turnsTaken, addMark };
     }
 
-    const player = _playerFactory("player", "X", 0);
-    const computer = _playerFactory("computer", "O", 0);
+    const player1 = _playerFactory("player1", "X", 0);
+    const player2 = _playerFactory("player2", "O", 0);
 
-    return { Gameboard, Game, computer, player }
+    return { Gameboard, Game, player1, player2 }
 })();
